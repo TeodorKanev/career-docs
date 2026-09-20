@@ -1,5 +1,5 @@
 ---
-title: "Articles API — Create, Read, Update, Delete"
+title: "Articles API: Create, Read, Update, and Delete Articles"
 sidebarTitle: "Articles"
 description: "REST API endpoints for managing Knowledge Base articles. List, retrieve, create, update, publish, and delete articles via HTTP requests."
 ---
@@ -266,10 +266,4 @@ curl -X DELETE https://api.knowledgebase.io/v1/articles/art_09mn7r2s \
 
 #### Response
 
-A successful deletion returns `204 No Content` with an empty response body.
-
-```json
-
-```
-
-If the article does not exist, the API returns a `404 Not Found` error.
+A successful deletion returns `204 No Content` with an empty response body. If the article does not exist, the API returns a `404 Not Found` error.
