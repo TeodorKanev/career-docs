@@ -1,0 +1,217 @@
+---
+title: "Categories API — Manage Content Groups"
+sidebarTitle: "Categories"
+description: "REST API endpoints for creating and managing Knowledge Base categories. List, create, update, and delete category groups via HTTP requests."
+---
+
+Categories let you organize your knowledge base articles into logical groups that are easier for your readers to navigate. The Categories API lets you create top-level categories and nested subcategories, reorder them, update their metadata, and remove them when they are no longer needed. Use the `parent_id` field to build multi-level category hierarchies.
+
+---
+
+### GET /categories
+
+Retrieve a list of all categories in your knowledge base. By default, the response includes top-level categories only. Use the `parent_id` query parameter to retrieve subcategories of a specific parent.
+
+#### Query Parameters
+
+<ParamField query="parent_id" type="string">
+  Filter the results to subcategories of the specified parent category ID. Omit this parameter to retrieve only top-level categories.
+</ParamField>
+
+#### Request
+
+```bash
+curl "https://api.knowledgebase.io/v1/categories" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "cat_7fqz2m",
+      "name": "Getting Started",
+      "description": "Guides for new users setting up their knowledge base.",
+      "parent_id": null,
+      "icon": "rocket",
+      "sort_order": 1,
+      "article_count": 12,
+      "created_at": "2024-01-05T09:00:00Z",
+      "updated_at": "2024-03-10T16:45:00Z"
+    },
+    {
+      "id": "cat_3hbr5n",
+      "name": "Billing & Payments",
+      "description": "Everything related to plans, invoices, and payment methods.",
+      "parent_id": null,
+      "icon": "credit-card",
+      "sort_order": 2,
+      "article_count": 8,
+      "created_at": "2024-01-05T09:00:00Z",
+      "updated_at": "2024-02-28T11:30:00Z"
+    }
+  ]
+}
+```
+
+To retrieve subcategories, pass the parent category's ID:
+
+```bash
+curl "https://api.knowledgebase.io/v1/categories?parent_id=cat_7fqz2m" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+---
+
+### POST /categories
+
+Create a new category. To create a subcategory, include a `parent_id` in the request body.
+
+#### Body Parameters
+
+<ParamField body="name" type="string" required>
+  The display name of the category. Must be between 1 and 100 characters.
+</ParamField>
+
+<ParamField body="description" type="string">
+  A short description of the category, displayed to readers on the category landing page.
+</ParamField>
+
+<ParamField body="parent_id" type="string">
+  The ID of the parent category. Include this field to create a nested subcategory. Omit it to create a top-level category.
+</ParamField>
+
+<ParamField body="icon" type="string">
+  An icon identifier to visually represent the category in the navigation (e.g., `"rocket"`, `"shield"`, `"credit-card"`).
+</ParamField>
+
+<ParamField body="sort_order" type="integer">
+  The position of the category in the navigation list. Lower values appear first. Defaults to appending the category at the end.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X POST https://api.knowledgebase.io/v1/categories \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Account & Security",
+    "description": "Manage your account settings, passwords, and two-factor authentication.",
+    "icon": "shield",
+    "sort_order": 3
+  }'
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "cat_5kdt9p",
+    "name": "Account & Security",
+    "description": "Manage your account settings, passwords, and two-factor authentication.",
+    "parent_id": null,
+    "icon": "shield",
+    "sort_order": 3,
+    "article_count": 0,
+    "created_at": "2024-04-11T10:15:00Z",
+    "updated_at": "2024-04-11T10:15:00Z"
+  }
+}
+```
+
+The response status is `201 Created`.
+
+---
+
+### PUT /categories/{id}
+
+Update an existing category. All body fields are optional — include only the fields you want to change.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the category to update.
+</ParamField>
+
+#### Body Parameters
+
+<ParamField body="name" type="string">
+  The updated display name of the category.
+</ParamField>
+
+<ParamField body="description" type="string">
+  The updated description of the category.
+</ParamField>
+
+<ParamField body="parent_id" type="string">
+  Move the category under a different parent by providing the new parent's ID. Set to `null` to promote the category to the top level.
+</ParamField>
+
+<ParamField body="icon" type="string">
+  The updated icon identifier.
+</ParamField>
+
+<ParamField body="sort_order" type="integer">
+  The updated sort position.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X PUT https://api.knowledgebase.io/v1/categories/cat_5kdt9p \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Account, Security & Privacy",
+    "sort_order": 2
+  }'
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "cat_5kdt9p",
+    "name": "Account, Security & Privacy",
+    "description": "Manage your account settings, passwords, and two-factor authentication.",
+    "parent_id": null,
+    "icon": "shield",
+    "sort_order": 2,
+    "article_count": 0,
+    "created_at": "2024-04-11T10:15:00Z",
+    "updated_at": "2024-04-11T10:30:00Z"
+  }
+}
+```
+
+---
+
+### DELETE /categories/{id}
+
+Permanently delete a category. This action cannot be undone.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the category to delete.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X DELETE https://api.knowledgebase.io/v1/categories/cat_5kdt9p \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+A successful deletion returns `204 No Content` with an empty response body.
+
+<Warning>
+  Deleting a category does **not** delete the articles inside it. Articles that belong to the deleted category will have their `category_id` set to `null` and become uncategorized. If the deleted category has subcategories, those subcategories are also permanently removed. Reassign or delete the affected articles and subcategories before deleting a category to avoid orphaned content.
+</Warning>

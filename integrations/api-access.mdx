@@ -1,0 +1,73 @@
+---
+title: "Access Knowledge Base via REST API"
+sidebarTitle: "API Access"
+description: "Use the Knowledge Base REST API to create, update, and retrieve articles programmatically — perfect for content pipelines and custom integrations."
+---
+
+The Knowledge Base REST API gives you full programmatic control over your content. You can list, create, update, and delete articles, manage categories, and query your knowledge base from any environment that can make HTTP requests. This makes the API ideal for automating content publishing from an external CMS, building internal tooling, powering a custom search interface, or integrating Knowledge Base into your existing support workflows.
+
+## Get your API key
+
+All API requests must be authenticated with a personal API key.
+
+1. Open your Knowledge Base dashboard and go to **Settings > API**.
+2. Click **Generate Key** to create a new API key.
+3. Copy the key and store it securely — it is shown only once. If you lose it, you can revoke it and generate a new one from the same page.
+
+<Warning>
+  Treat your API key like a password. Do not commit it to source control or expose it in client-side code. Use environment variables or a secrets manager to inject the key at runtime.
+</Warning>
+
+## Base URL and authentication
+
+All API requests use the following base URL:
+
+```
+https://api.knowledgebase.io/v1
+```
+
+Authenticate every request by passing your API key as a Bearer token in the `Authorization` header:
+
+```bash
+curl https://api.knowledgebase.io/v1/articles \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Quick examples
+
+### List all articles
+
+Retrieve a paginated list of all published articles in your knowledge base:
+
+```bash
+curl https://api.knowledgebase.io/v1/articles \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+The response returns an array of article objects, each containing `id`, `title`, `slug`, `category`, `status`, and `updated_at` fields.
+
+### Create an article
+
+Send a `POST` request with a JSON body to create a new article:
+
+```bash
+curl -X POST https://api.knowledgebase.io/v1/articles \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Getting Started with Knowledge Base",
+    "content": "Welcome to Knowledge Base! This article will walk you through the basics.",
+    "category_id": "cat_01hx4z2a",
+    "status": "published"
+  }'
+```
+
+A successful response returns HTTP `201 Created` along with the full article object, including the system-generated `id` and `slug`.
+
+## Full API reference
+
+For the complete list of endpoints, request parameters, and response schemas, see the [**API Reference**](/api/introduction) section of this documentation. The reference includes interactive examples you can run directly from the browser using your API key.
+
+<Note>
+  Standard plans are limited to **1,000 API requests per hour** per API key. If you exceed this limit, the API returns HTTP `429 Too Many Requests`. The response includes a `Retry-After` header indicating when you can resume making requests. If your integration requires a higher throughput, contact the Knowledge Base support team to discuss a plan upgrade.
+</Note>

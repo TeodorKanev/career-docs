@@ -1,0 +1,39 @@
+---
+title: "Integrate Knowledge Base with Your Tools"
+sidebarTitle: "Overview"
+description: "Connect Knowledge Base to your support stack — embed a search widget, sync with chat tools, or build custom integrations using the REST API."
+---
+
+Knowledge Base is built to fit into the tools your team already uses. Whether you want to surface articles inside a chat conversation, embed a floating search widget on your website, trigger automations when content changes, or build a fully custom integration, you have multiple paths to connect Knowledge Base to your support stack. Choose the approach that best matches your use case, or combine several to cover every touchpoint in your customer journey.
+
+<CardGroup cols={2}>
+  <Card title="Chat Widgets" icon="message-circle" href="/integrations/chat-widgets">
+    Add a floating search widget to any webpage so customers can find answers without leaving the page — no backend required.
+  </Card>
+  <Card title="API Access" icon="code" href="/integrations/api-access">
+    Create, update, and retrieve articles programmatically using the Knowledge Base REST API. Ideal for content pipelines and custom tooling.
+  </Card>
+  <Card title="Webhooks" icon="webhook">
+    Receive real-time HTTP notifications whenever articles are published, updated, or deleted. Use webhooks to sync content with external systems automatically.
+  </Card>
+  <Card title="Custom Embeds" icon="layout">
+    Use the Embed API to render a fully styled, interactive knowledge base experience inside your own product or portal with complete control over layout and branding.
+  </Card>
+</CardGroup>
+
+## When to use each integration type
+
+Each integration type is designed for a specific workflow. Use the guidance below to pick the right starting point.
+
+| Integration | Best for |
+|---|---|
+| **Chat Widgets** | Adding self-serve article search to a marketing site, docs portal, or in-app help center without writing backend code |
+| **API Access** | Syncing articles from an external CMS, automating bulk content updates, or building a custom search experience |
+| **Webhooks** | Keeping a third-party database, search index, or notification system in sync when your knowledge base content changes |
+| **Custom Embeds** | Embedding a fully branded knowledge base experience directly inside your SaaS product, customer portal, or internal tool |
+
+You can use more than one integration at the same time. For example, you might use the Chat Widget for your public help center while using the REST API to push article updates from your content pipeline.
+
+<Note>
+  All API-based integrations — including webhooks and custom embeds — require authentication using an API key. Standard plans are subject to a rate limit of **1,000 requests per hour**. If you expect higher traffic, contact support to discuss an upgraded plan. You can generate or rotate your API key at any time from **Settings > API**.
+</Note>

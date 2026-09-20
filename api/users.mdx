@@ -1,0 +1,196 @@
+---
+title: "Users API — Manage Team Members"
+sidebarTitle: "Users"
+description: "REST API endpoints for managing Knowledge Base team members. List users, invite new members, update roles, and remove access programmatically."
+---
+
+The Users API lets you manage the team members who have access to your knowledge base. You can list current members, invite new users by email, update their roles, and remove access when someone leaves your team. Role assignments control what each team member can create, edit, and publish through both the dashboard and the API.
+
+---
+
+### GET /users
+
+Retrieve a list of all team members who have access to your knowledge base.
+
+#### Request
+
+```bash
+curl https://api.knowledgebase.io/v1/users \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "usr_a9c3lp",
+      "email": "alex@example.com",
+      "name": "Alex Rivera",
+      "role": "admin",
+      "created_at": "2024-01-05T08:00:00Z"
+    },
+    {
+      "id": "usr_b2d4mq",
+      "email": "jamie@example.com",
+      "name": "Jamie Chen",
+      "role": "editor",
+      "created_at": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "usr_c6e8nr",
+      "email": "sam@example.com",
+      "name": "Sam Patel",
+      "role": "writer",
+      "created_at": "2024-02-20T09:00:00Z"
+    }
+  ]
+}
+```
+
+<ResponseField name="id" type="string">
+  The unique identifier for the team member.
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  The email address of the team member.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The display name of the team member.
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  The member's assigned role. One of `admin`, `editor`, `writer`, or `viewer`. See [POST /users](#post-users) for role descriptions.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  The ISO 8601 timestamp of when the team member was added to the knowledge base.
+</ResponseField>
+
+---
+
+### POST /users
+
+Invite a new team member by email address. The invited user receives an email with a link to set their password and access the knowledge base.
+
+#### Body Parameters
+
+<ParamField body="email" type="string" required>
+  The email address of the person to invite. An invitation email is sent to this address.
+</ParamField>
+
+<ParamField body="role" type="string" required>
+  The role to assign to the new team member. Accepted values:
+
+  - `admin` — Full access to all content and settings, including billing and team management.
+  - `editor` — Can create, edit, publish, and delete any article or category.
+  - `writer` — Can create and edit articles but cannot publish, delete, or manage categories.
+  - `viewer` — Read-only access to all content, with no ability to make changes.
+</ParamField>
+
+<ParamField body="name" type="string">
+  An optional display name for the invited user. The invitee can update their name after accepting the invitation.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X POST https://api.knowledgebase.io/v1/users \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "taylor@example.com",
+    "role": "editor",
+    "name": "Taylor Morgan"
+  }'
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "usr_d7f9os",
+    "email": "taylor@example.com",
+    "name": "Taylor Morgan",
+    "role": "editor",
+    "created_at": "2024-04-11T11:00:00Z"
+  }
+}
+```
+
+The response status is `201 Created`. The invitation email is sent immediately upon a successful response.
+
+---
+
+### PUT /users/{id}
+
+Update a team member's role. You can promote or demote any member's role at any time.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the team member to update.
+</ParamField>
+
+#### Body Parameters
+
+<ParamField body="role" type="string" required>
+  The new role to assign to the team member. Accepted values: `admin`, `editor`, `writer`, `viewer`.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X PUT https://api.knowledgebase.io/v1/users/usr_d7f9os \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "role": "writer"
+  }'
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "usr_d7f9os",
+    "email": "taylor@example.com",
+    "name": "Taylor Morgan",
+    "role": "writer",
+    "created_at": "2024-04-11T11:00:00Z"
+  }
+}
+```
+
+Role changes take effect immediately. If you downgrade an admin to a lower role, they will lose access to settings and team management features right away.
+
+---
+
+### DELETE /users/{id}
+
+Remove a team member and revoke their access to the knowledge base. This action cannot be undone.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the team member to remove.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X DELETE https://api.knowledgebase.io/v1/users/usr_d7f9os \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+A successful removal returns `204 No Content` with an empty response body.
+
+<Note>
+  Removing a user immediately revokes their dashboard access, but it does **not** automatically revoke any API keys they generated under their own account. After removing a team member, go to **Settings** → **API Keys** and revoke any keys associated with their account to fully cut off programmatic access. Failing to do so may leave active API keys that can still make authenticated requests on behalf of the removed user.
+</Note>

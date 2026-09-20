@@ -1,0 +1,130 @@
+---
+title: "Search API — Query Knowledge Base Articles"
+sidebarTitle: "Search"
+description: "Use the Knowledge Base Search API to query published articles by keyword, filter by category, and retrieve ranked results with highlighted snippets."
+---
+
+The Search API lets you query your published knowledge base articles using full-text search. Results are ranked by relevance and can include highlighted snippets that show exactly where the query terms appear in each article. You can filter results by category, control the number of results returned, and use the response data to power custom search experiences in your own product.
+
+---
+
+### GET /search
+
+Search across all published articles in your knowledge base.
+
+#### Query Parameters
+
+<ParamField query="q" type="string" required>
+  The search query string. The API performs full-text search against article titles and body content.
+</ParamField>
+
+<ParamField query="category_id" type="string">
+  Restrict search results to articles belonging to the specified category ID.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+  The maximum number of results to return. Defaults to `10`. Maximum is `50`.
+</ParamField>
+
+<ParamField query="highlight" type="boolean">
+  Whether to include highlighted snippets in the response. When `true`, matched terms are wrapped in `<em>` tags. Defaults to `true`.
+</ParamField>
+
+#### Request
+
+```bash
+curl "https://api.knowledgebase.io/v1/search?q=password+reset&highlight=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "query": "password reset",
+    "total": 3,
+    "hits": [
+      {
+        "id": "art_02jy4l0q",
+        "title": "How to Reset Your Password",
+        "snippet": "You can <em>reset</em> your <em>password</em> at any time by clicking 'Forgot Password' on the login page...",
+        "score": 0.98,
+        "category_id": "cat_5kdt9p",
+        "url": "https://help.example.com/articles/reset-password"
+      },
+      {
+        "id": "art_06pr1c7v",
+        "title": "Setting Up Two-Factor Authentication",
+        "snippet": "After a <em>password</em> change or <em>reset</em>, you will be prompted to verify your identity using 2FA...",
+        "score": 0.74,
+        "category_id": "cat_5kdt9p",
+        "url": "https://help.example.com/articles/two-factor-auth"
+      },
+      {
+        "id": "art_11wz8d3x",
+        "title": "Managing Team Member Access",
+        "snippet": "Admins can trigger a <em>password</em> <em>reset</em> for any team member from the Users settings page...",
+        "score": 0.51,
+        "category_id": "cat_3hbr5n",
+        "url": "https://help.example.com/articles/manage-team-access"
+      }
+    ]
+  }
+}
+```
+
+<ResponseField name="query" type="string">
+  The original search query string echoed back in the response.
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  The total number of matching articles found.
+</ResponseField>
+
+<ResponseField name="hits" type="array">
+  An array of matching article result objects, ordered by relevance score descending.
+
+  <Expandable title="Hit object fields">
+    <ResponseField name="id" type="string">
+      The unique identifier of the matching article.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      The title of the article.
+    </ResponseField>
+    <ResponseField name="snippet" type="string">
+      A short excerpt from the article body showing where the query terms were found. Contains `<em>` tags around matched terms when `highlight=true`.
+    </ResponseField>
+    <ResponseField name="score" type="number">
+      A relevance score between `0` and `1`. Higher scores indicate stronger matches. Results are sorted by score in descending order.
+    </ResponseField>
+    <ResponseField name="category_id" type="string">
+      The ID of the category the article belongs to.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      The public URL of the article in your knowledge base.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## How Highlighting Works
+
+When you set `highlight=true` (the default), the API wraps matched query terms in the `snippet` field with `<em>` tags. This makes it straightforward to render bold or italicized highlights in your UI — simply style the `em` element with your desired highlight appearance using CSS.
+
+For example, a search for `password reset` returns a snippet like:
+
+```
+"You can <em>reset</em> your <em>password</em> at any time..."
+```
+
+Highlighting applies to the snippet only, not to the article title. The title field always contains the plain, unmodified title string.
+
+## Pagination
+
+The Search API uses limit-based pagination rather than page-based pagination. To retrieve more results, increase the `limit` parameter up to the maximum of `50`. If your query matches more articles than the limit, the `total` field in the response will reflect the true count of matching articles, while `hits` will contain only as many results as you requested.
+
+For most search UI use cases, the top 10–20 results are sufficient. If you need to paginate through all matching articles programmatically, use the [List Articles](/api/articles) endpoint with the `q` parameter instead, which supports full page-based pagination.
+
+<Tip>
+  The Search API is ideal for powering a custom search experience inside your own product. Use the `hits` array to render a search results list, the `snippet` field for contextual previews, and the `url` field to link directly to each article. Combine `category_id` filtering with your own navigation to let users search within a specific section of your knowledge base.
+</Tip>

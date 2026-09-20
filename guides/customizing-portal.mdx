@@ -1,0 +1,105 @@
+---
+title: "Customize Your Help Center Portal"
+sidebarTitle: "Customizing Portal"
+description: "Make your Knowledge Base help center look and feel like your brand — customize colors, logo, domain, homepage layout, and navigation."
+---
+
+Your Help Center portal is often the first place customers go when they run into a problem — which means it is also an extension of your brand. A portal that looks and feels like the rest of your product builds trust and reduces the friction that drives customers to open a support ticket instead of finding the answer themselves. This guide walks you through every customization option available, from uploading your logo to pointing a custom domain at your portal.
+
+## Portal Customization Options Overview
+
+<CardGroup cols={2}>
+  <Card title="Logo and Favicon" icon="image">
+    Upload your company logo to appear in the portal header, and a favicon (16×16 or 32×32 px `.ico` or `.png`) to brand the browser tab. Supported logo formats: PNG, SVG, WEBP. Max file size: 2 MB.
+  </Card>
+  <Card title="Brand Colors and Fonts" icon="palette">
+    Set a primary brand color used for buttons, links, and active navigation items. Choose a secondary color for backgrounds and accents. Select from a curated set of font pairings for headings and body text.
+  </Card>
+  <Card title="Custom Domain" icon="globe">
+    Serve your portal from a subdomain you control — for example, `help.yourcompany.com` — instead of the default `yourcompany.knowledgebase.app` URL. Requires a DNS change on your domain registrar.
+  </Card>
+  <Card title="Homepage Layout and Featured Content" icon="layout-grid">
+    Choose between a search-first layout (large search bar hero) or a category-grid layout (visual tiles for each category). Pin up to six articles or categories as featured content on the homepage.
+  </Card>
+  <Card title="Header Navigation Links" icon="menu">
+    Add custom links to your portal header — for example, a link back to your main website, your product login page, or your community forum. Links can open in the same tab or a new tab.
+  </Card>
+  <Card title="Footer Navigation Links" icon="layout-panel-top">
+    Build a footer with grouped link columns for resources like your Privacy Policy, Terms of Service, social media profiles, and contact information.
+  </Card>
+</CardGroup>
+
+## Setting a Custom Domain
+
+<Steps>
+  <Step title="Choose your subdomain">
+    Decide on the subdomain you want to use for your Help Center (for example, `help.yourcompany.com`). You need access to your domain registrar's DNS settings to complete this process.
+  </Step>
+  <Step title="Open Portal Settings">
+    In your Knowledge Base dashboard, go to **Settings → Portal → Custom Domain**.
+  </Step>
+  <Step title="Enter your custom domain">
+    Type your chosen subdomain into the **Custom Domain** field (for example, `help.yourcompany.com`) and click **Save**.
+  </Step>
+  <Step title="Add a CNAME record in your DNS settings">
+    Log in to your domain registrar (for example, Cloudflare, GoDaddy, or Namecheap). Add a new **CNAME** record with the following values:
+    - **Name / Host:** `help` (or whatever subdomain prefix you chose)
+    - **Value / Target:** `portal.knowledgebase.app`
+    - **TTL:** 3600 (or "Automatic")
+
+    Save the DNS record.
+  </Step>
+  <Step title="Verify and enable SSL">
+    Return to **Settings → Portal → Custom Domain** in your dashboard. Click **Verify Domain**. Once the platform detects your CNAME record, it automatically provisions an SSL certificate. This can take a few minutes after DNS propagation completes.
+  </Step>
+</Steps>
+
+<Warning>
+  DNS changes can take anywhere from a few minutes to 48 hours to fully propagate across the internet, depending on your registrar and the TTL of your previous records. During this window, some visitors may still see your old domain or encounter a certificate warning. Do not remove the old domain from your settings until verification is confirmed in your dashboard. Avoid scheduling a domain migration immediately before a major product launch or high-traffic event.
+</Warning>
+
+## Updating Brand Colors and Logo
+
+<Steps>
+  <Step title="Open Appearance Settings">
+    Go to **Settings → Portal → Appearance**. The Appearance panel shows a live preview of your portal on the right side of the screen.
+  </Step>
+  <Step title="Upload your logo">
+    Click **Upload Logo** and select your logo file (PNG or SVG recommended for crisp rendering at all sizes). The preview updates immediately. To also set a favicon, click **Upload Favicon** and select a 32×32 px PNG or ICO file.
+  </Step>
+  <Step title="Set your primary brand color">
+    Click the color swatch next to **Primary Color** and enter your brand's hex code (for example, `#4F46E5`), or use the color picker. The preview applies the color to buttons, links, and the active navigation highlight.
+  </Step>
+  <Step title="Set your secondary color">
+    Repeat the process for **Secondary Color**. This color is used for section backgrounds, card borders, and hover states.
+  </Step>
+  <Step title="Choose a font pairing">
+    Open the **Typography** dropdown and select a font pairing from the list. Each option shows a sample of the heading and body font combination so you can preview the result before committing.
+  </Step>
+  <Step title="Save your changes">
+    Click **Save Appearance**. Changes go live on your portal immediately — no deployment required.
+  </Step>
+</Steps>
+
+## Adding Custom CSS for Advanced Styling
+
+If the built-in appearance settings do not cover your branding needs, you can inject a custom CSS snippet that is applied on top of the default portal styles.
+
+1. Go to **Settings → Portal → Advanced**.
+2. Scroll to the **Custom CSS** section.
+3. Paste your CSS rules into the editor. For example, to change the portal's background color:
+
+```css
+/* Custom portal background */
+body.help-center {
+  background-color: #f8fafc;
+}
+```
+
+4. Click **Save**. Your styles apply to all portal pages instantly.
+
+Use the browser's developer tools to inspect element class names in your live portal before writing custom rules. Avoid targeting internal class names that start with `_` — these are implementation details that may change between platform updates.
+
+<Warning>
+  Custom CSS overrides are powerful but unsupported. Platform updates may change the underlying HTML structure of your portal, which can cause your custom rules to break without warning. Review your custom CSS after any major platform release and test your portal in at least two browsers before publishing significant style changes.
+</Warning>

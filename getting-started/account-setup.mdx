@@ -1,0 +1,41 @@
+---
+title: "Set Up Your Knowledge Base Account"
+sidebarTitle: "Account Setup"
+description: "Create and configure your Knowledge Base account, invite your team, and set your help center domain in a few simple steps."
+---
+
+Your Knowledge Base account is the foundation everything else is built on. This guide walks you through creating your account, verifying your identity, choosing the right plan, and getting your team set up — so you can start publishing content as quickly as possible.
+
+## Create and configure your account
+
+<Steps>
+  <Step title="Sign Up">
+    Go to the Knowledge Base sign-up page and enter your work email address and a strong password. Using a work email is recommended because it makes it easier to invite colleagues and keeps your workspace separate from personal accounts. Click **Create Account** to proceed.
+  </Step>
+  <Step title="Verify Your Email">
+    Check your inbox for a verification email from Knowledge Base and click the confirmation link inside. If the email doesn't arrive within a couple of minutes, check your spam folder or click **Resend verification email** on the confirmation screen. Your account won't be fully active until this step is complete.
+  </Step>
+  <Step title="Choose a Plan">
+    After verification you'll be prompted to choose a plan. The **Starter** plan is free and covers one knowledge base with up to three team members — perfect for getting started. Upgrade to **Pro** or **Enterprise** at any time from **Settings → Billing** if you need more knowledge bases, advanced analytics, or SSO support.
+  </Step>
+  <Step title="Set Up Your Profile">
+    Open **Settings → Profile** and add your name, job title, and a profile photo. Your profile details appear in article bylines and in team activity logs, so keeping them accurate helps colleagues know who authored or edited specific content.
+  </Step>
+  <Step title="Invite Team Members">
+    Go to **Settings → Team** and click **Invite Member**. Enter your colleague's email address and select the role that matches their responsibilities — **Editor**, **Reviewer**, or **Admin**. They'll receive an invitation email and can join the workspace with one click. You can invite as many members as your plan allows.
+  </Step>
+</Steps>
+
+## Configure your custom domain
+
+By default your help center is available at `yourworkspace.knowledgebase.io`. To use your own domain — such as `help.yourcompany.com` — follow these steps:
+
+1. Open **Settings → Domains** and click **Add Custom Domain**.
+2. Enter the domain or subdomain you want to use and click **Continue**.
+3. Knowledge Base will display two DNS records (a `CNAME` and a `TXT` verification record). Add both records in your DNS provider's dashboard — the exact steps vary by provider, but most have a straightforward records editor.
+4. Click **Verify Domain**. DNS changes can take up to 48 hours to propagate, though they often resolve within minutes.
+5. Once verification succeeds, Knowledge Base automatically provisions an SSL certificate so your help center is served securely over HTTPS.
+
+<Note>
+  **Team roles and permissions** control what each member can do inside your workspace. **Editors** can create and edit articles but cannot publish or delete them. **Reviewers** can leave comments and approve drafts. **Admins** have full access including billing, domain settings, and team management. Assign the least-privileged role that each person needs to do their job.
+</Note>

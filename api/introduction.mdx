@@ -1,0 +1,76 @@
+---
+title: "Knowledge Base REST API Overview"
+sidebarTitle: "Introduction"
+description: "The Knowledge Base REST API lets you manage articles, categories, and users programmatically. Learn about base URLs, versioning, rate limits, and response formats."
+---
+
+The Knowledge Base REST API gives you full programmatic control over your knowledge base content and team. You can create and publish articles, organize content into categories, search across your knowledge base, and manage user access — all through standard HTTP requests. Whether you're building an integration, automating content workflows, or embedding your knowledge base into a custom product experience, the API provides everything you need.
+
+## Base URL
+
+All API requests are made to the following base URL:
+
+```
+https://api.knowledgebase.io/v1
+```
+
+Every endpoint documented in this reference is relative to this base URL. For example, the articles endpoint is available at `https://api.knowledgebase.io/v1/articles`.
+
+## Versioning
+
+The API uses URL-based versioning. The current stable version is **v1**, reflected in the base URL path. When breaking changes are introduced, a new version (e.g., `v2`) is released alongside the previous version. You will receive advance notice before any version is deprecated, giving you time to migrate without disruption. Non-breaking additions — such as new optional fields or new endpoints — may be added to the current version at any time.
+
+## Request and Response Format
+
+The API accepts and returns **JSON** for all request and response bodies. Set the `Content-Type` header to `application/json` on all requests that include a body. Responses always include a `Content-Type: application/json` header.
+
+Timestamps are returned in **ISO 8601** format (e.g., `2024-03-15T10:30:00Z`). All string fields are UTF-8 encoded.
+
+## Rate Limits
+
+The API enforces rate limits based on your subscription plan. Limits are applied per API key on a rolling one-hour window.
+
+| Plan       | Requests per Hour |
+|------------|-------------------|
+| Free       | 100               |
+| Standard   | 1,000             |
+| Pro        | 10,000            |
+
+When you exceed your rate limit, the API returns a `429 Too Many Requests` response. The response includes a `Retry-After` header indicating how many seconds to wait before making another request.
+
+## Error Responses
+
+When a request fails, the API returns a structured error object so you can programmatically identify and handle the issue. Every error response follows this format:
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "Article with id 'abc123' was not found.",
+    "status": 404
+  }
+}
+```
+
+- **`code`** — A machine-readable string identifying the error type.
+- **`message`** — A human-readable description of what went wrong.
+- **`status`** — The HTTP status code associated with the error.
+
+## HTTP Status Codes
+
+The API uses standard HTTP status codes to indicate the result of every request.
+
+| Status Code | Meaning                                                                 |
+|-------------|-------------------------------------------------------------------------|
+| `200`       | **OK** — The request succeeded and the response body contains the result. |
+| `201`       | **Created** — A new resource was successfully created.                  |
+| `400`       | **Bad Request** — The request was malformed or missing required fields. |
+| `401`       | **Unauthorized** — The API key is missing or invalid.                   |
+| `403`       | **Forbidden** — The API key does not have permission to perform this action. |
+| `404`       | **Not Found** — The requested resource does not exist.                  |
+| `429`       | **Too Many Requests** — You have exceeded your plan's rate limit.       |
+| `500`       | **Internal Server Error** — Something went wrong on the server side.    |
+
+<Note>
+  Before making API requests, you need a valid API key. See the [Authentication](/api/authentication) page to learn how to generate your key and include it in every request.
+</Note>

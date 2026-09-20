@@ -1,0 +1,275 @@
+---
+title: "Articles API — Create, Read, Update, Delete"
+sidebarTitle: "Articles"
+description: "REST API endpoints for managing Knowledge Base articles. List, retrieve, create, update, publish, and delete articles via HTTP requests."
+---
+
+Articles are the core content unit of your knowledge base. The Articles API lets you create, retrieve, update, publish, and delete articles programmatically. You can filter article listings by category, status, or keyword search, and manage the full content lifecycle — from drafting through publishing to archiving — without touching the dashboard UI.
+
+---
+
+### GET /articles
+
+Retrieve a paginated list of articles in your knowledge base. You can filter results by category, publication status, or a search query.
+
+#### Query Parameters
+
+<ParamField query="page" type="integer">
+  The page number to retrieve. Defaults to `1`.
+</ParamField>
+
+<ParamField query="per_page" type="integer">
+  The number of articles to return per page. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField query="category_id" type="string">
+  Filter articles to those belonging to the specified category ID.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter articles by publication status. Accepted values: `draft`, `published`, `archived`.
+</ParamField>
+
+<ParamField query="q" type="string">
+  A search query string. Returns articles whose title or body contains the query terms.
+</ParamField>
+
+#### Request
+
+```bash
+curl "https://api.knowledgebase.io/v1/articles?status=published&per_page=2" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "art_01hx3k9p",
+      "title": "Getting Started with Your Knowledge Base",
+      "status": "published",
+      "category_id": "cat_7fqz2m",
+      "tags": ["onboarding", "setup"],
+      "author_id": "usr_a9c3lp",
+      "created_at": "2024-01-10T08:00:00Z",
+      "updated_at": "2024-03-01T14:22:00Z",
+      "url": "https://help.example.com/articles/getting-started"
+    },
+    {
+      "id": "art_02jy4l0q",
+      "title": "How to Reset Your Password",
+      "status": "published",
+      "category_id": "cat_7fqz2m",
+      "tags": ["account", "security"],
+      "author_id": "usr_b2d4mq",
+      "created_at": "2024-01-15T09:30:00Z",
+      "updated_at": "2024-02-20T11:05:00Z",
+      "url": "https://help.example.com/articles/reset-password"
+    }
+  ],
+  "meta": {
+    "total": 48,
+    "page": 1,
+    "per_page": 2,
+    "total_pages": 24
+  }
+}
+```
+
+---
+
+### GET /articles/{id}
+
+Retrieve a single article by its unique ID, including its full HTML body content.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the article to retrieve.
+</ParamField>
+
+#### Request
+
+```bash
+curl https://api.knowledgebase.io/v1/articles/art_01hx3k9p \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "art_01hx3k9p",
+    "title": "Getting Started with Your Knowledge Base",
+    "body": "<h2>Welcome</h2><p>This guide walks you through setting up your knowledge base for the first time...</p>",
+    "status": "published",
+    "category_id": "cat_7fqz2m",
+    "tags": ["onboarding", "setup"],
+    "author_id": "usr_a9c3lp",
+    "created_at": "2024-01-10T08:00:00Z",
+    "updated_at": "2024-03-01T14:22:00Z",
+    "url": "https://help.example.com/articles/getting-started"
+  }
+}
+```
+
+---
+
+### POST /articles
+
+Create a new article. New articles are created with a status of `draft` by default unless you specify otherwise.
+
+#### Body Parameters
+
+<ParamField body="title" type="string" required>
+  The title of the article. Must be between 1 and 300 characters.
+</ParamField>
+
+<ParamField body="body" type="string" required>
+  The full article content as an HTML string. Supported tags include headings, paragraphs, lists, links, code blocks, and images.
+</ParamField>
+
+<ParamField body="category_id" type="string">
+  The ID of the category to assign this article to. If omitted, the article is created without a category.
+</ParamField>
+
+<ParamField body="tags" type="array">
+  An array of tag strings to apply to the article (e.g., `["billing", "invoices"]`).
+</ParamField>
+
+<ParamField body="status" type="string">
+  The publication status of the article. Accepted values: `draft`, `published`, `archived`. Defaults to `draft`.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X POST https://api.knowledgebase.io/v1/articles \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "How to Export Your Data",
+    "body": "<p>You can export all your knowledge base data at any time from the Settings page.</p>",
+    "category_id": "cat_7fqz2m",
+    "tags": ["data", "export", "settings"],
+    "status": "draft"
+  }'
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "art_09mn7r2s",
+    "title": "How to Export Your Data",
+    "body": "<p>You can export all your knowledge base data at any time from the Settings page.</p>",
+    "status": "draft",
+    "category_id": "cat_7fqz2m",
+    "tags": ["data", "export", "settings"],
+    "author_id": "usr_a9c3lp",
+    "created_at": "2024-04-10T13:45:00Z",
+    "updated_at": "2024-04-10T13:45:00Z",
+    "url": null
+  }
+}
+```
+
+The response status is `201 Created`. The `url` field is `null` for draft articles and is populated once the article is published.
+
+---
+
+### PUT /articles/{id}
+
+Update an existing article. You only need to include the fields you want to change — all body fields are optional. Pass `"status": "published"` to publish a draft article.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the article to update.
+</ParamField>
+
+#### Body Parameters
+
+<ParamField body="title" type="string">
+  The updated article title.
+</ParamField>
+
+<ParamField body="body" type="string">
+  The updated article content as an HTML string.
+</ParamField>
+
+<ParamField body="category_id" type="string">
+  The ID of the category to assign or reassign this article to.
+</ParamField>
+
+<ParamField body="tags" type="array">
+  A new array of tag strings. This replaces the existing tags entirely.
+</ParamField>
+
+<ParamField body="status" type="string">
+  The updated publication status. Accepted values: `draft`, `published`, `archived`.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X PUT https://api.knowledgebase.io/v1/articles/art_09mn7r2s \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "published",
+    "tags": ["data", "export", "settings", "backup"]
+  }'
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "id": "art_09mn7r2s",
+    "title": "How to Export Your Data",
+    "body": "<p>You can export all your knowledge base data at any time from the Settings page.</p>",
+    "status": "published",
+    "category_id": "cat_7fqz2m",
+    "tags": ["data", "export", "settings", "backup"],
+    "author_id": "usr_a9c3lp",
+    "created_at": "2024-04-10T13:45:00Z",
+    "updated_at": "2024-04-10T14:02:00Z",
+    "url": "https://help.example.com/articles/how-to-export-your-data"
+  }
+}
+```
+
+---
+
+### DELETE /articles/{id}
+
+Permanently delete an article. This action cannot be undone.
+
+#### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the article to delete.
+</ParamField>
+
+#### Request
+
+```bash
+curl -X DELETE https://api.knowledgebase.io/v1/articles/art_09mn7r2s \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Response
+
+A successful deletion returns `204 No Content` with an empty response body.
+
+```json
+
+```
+
+If the article does not exist, the API returns a `404 Not Found` error.

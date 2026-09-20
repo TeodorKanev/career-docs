@@ -1,13 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "projectType": "saas",
+  "projectName": "Knowledge Base",
+  "projectDescription": "A centralized knowledge base platform that helps teams create, organize, and share information with their customers and colleagues.",
   "theme": "almond",
-  "name": "Knowledge Base",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -80,20 +78,25 @@
       }
     ]
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@example.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Sign In",
-      "href": "https://app.example.com"
-    }
-  },
-  "footer": {
-    "socials": {}
-  }
+  "keyFeatures": [
+    "Rich text article editor",
+    "Category and tag organization",
+    "Full-text search",
+    "Customizable self-service portal",
+    "Team collaboration and roles",
+    "Analytics and insights",
+    "API access for integrations",
+    "Chat widget and third-party integrations"
+  ],
+  "publicApiSurface": [
+    "GET /api/articles",
+    "POST /api/articles",
+    "PUT /api/articles/{id}",
+    "DELETE /api/articles/{id}",
+    "GET /api/categories",
+    "POST /api/categories",
+    "GET /api/search",
+    "GET /api/users",
+    "POST /api/users"
+  ]
 }

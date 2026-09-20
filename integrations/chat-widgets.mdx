@@ -1,0 +1,60 @@
+---
+title: "Embed a Knowledge Base Search Widget"
+sidebarTitle: "Chat Widgets"
+description: "Add a floating search widget to your website or app so customers can search your Knowledge Base without leaving the page — no backend required."
+---
+
+The Knowledge Base search widget is a lightweight JavaScript snippet that adds a floating search button to any webpage. When a visitor clicks the button, a panel slides open and lets them search your published articles instantly — no page reload, no separate tab, and no backend code on your end. The widget is fully responsive and works on any modern browser.
+
+## Prerequisites
+
+Before you embed the widget, make sure you have the following ready:
+
+- A **published knowledge base** with at least one live article. The widget only surfaces published content.
+- Your **Widget ID**, which you can find in **Settings > Integrations > Widget**. Each knowledge base has a unique Widget ID.
+
+## Embed the widget
+
+<Steps>
+  <Step title="Find your Widget ID">
+    Open your Knowledge Base dashboard and navigate to **Settings > Integrations > Widget**. Your Widget ID is displayed at the top of the page. Copy it — you'll paste it into the script tag in the next step.
+  </Step>
+  <Step title="Add the script tag to your HTML">
+    Paste the following snippet just before the closing `</body>` tag in every page where you want the widget to appear. Replace `YOUR_WIDGET_ID` with the ID you copied in the previous step.
+
+    ```html
+    <script
+      src="https://widget.knowledgebase.io/v1/widget.js"
+      data-widget-id="YOUR_WIDGET_ID"
+      data-position="bottom-right"
+      data-primary-color="#ef7025"
+      async
+    ></script>
+    ```
+
+    The `async` attribute ensures the widget loads without blocking the rest of your page.
+  </Step>
+  <Step title="Configure the widget options">
+    Customize the widget's appearance and behavior by adding `data-` attributes to the script tag. For example, you can change the position to `bottom-left`, update the primary color to match your brand, or pre-fill the search box with a default query to guide visitors toward popular topics.
+
+    See the [configuration options](#widget-configuration-options) table below for the full list of available attributes.
+  </Step>
+  <Step title="Test the widget">
+    Open the page in a browser and confirm the widget button appears in the correct position. Click the button to open the search panel and run a test search to verify that results are returned from your knowledge base. If nothing appears, double-check that your Widget ID is correct and that your knowledge base has published articles.
+  </Step>
+</Steps>
+
+## Widget configuration options
+
+Customize the widget by adding any of the following `data-` attributes to your script tag.
+
+| Attribute | Required | Default | Description |
+|---|---|---|---|
+| `data-widget-id` | Yes | — | Your unique Widget ID from **Settings > Integrations > Widget**. |
+| `data-position` | No | `bottom-right` | Position of the floating button. Accepts `bottom-right`, `bottom-left`, `top-right`, or `top-left`. |
+| `data-primary-color` | No | `#ef7025` | Hex color code used for the widget button, highlights, and links. Use your brand's primary color. |
+| `data-placeholder` | No | `Search articles…` | Placeholder text shown inside the search input field. |
+
+<Tip>
+  To restrict the widget to specific pages — for example, only your `/support` or `/docs` sections — add the script tag only to those page templates rather than your global layout. Alternatively, you can use a short JavaScript condition to load the widget script conditionally based on `window.location.pathname` before the script tag.
+</Tip>

@@ -1,0 +1,70 @@
+---
+title: "Organize Your Knowledge Base with Categories and Tags"
+sidebarTitle: "Organizing Content"
+description: "Structure your Knowledge Base so customers find answers without searching. Use categories, subcategories, and tags to create intuitive navigation."
+---
+
+A well-organized knowledge base is one where customers find the right article without needing to type a single word into the search bar. Thoughtful structure — built around how your customers think, not how your internal teams are organized — reduces support tickets, speeds up onboarding, and builds trust in your product. This guide walks you through planning your category hierarchy, creating and nesting categories, using tags for cross-cutting topics, and keeping your content tidy over time.
+
+## Planning Your Category Structure
+
+Before you create a single category, step back and map out how your customers move through your product. The most common mistake is mirroring your internal org chart — for example, creating categories named after teams like "Engineering" or "Customer Success." Your customers do not know or care how you are structured internally; they only know the problem they are trying to solve.
+
+Instead, organize categories around **customer journeys and goals**:
+
+- **Getting Started** — articles for brand-new users completing their first setup.
+- **Account & Billing** — everything related to plans, invoices, and profile settings.
+- **Using [Core Feature]** — one category per major product area, named after the feature as the customer knows it.
+- **Troubleshooting** — a dedicated space for error messages, known issues, and fixes.
+- **Integrations** — guides for connecting your product with third-party tools.
+- **Security & Privacy** — policies, data handling, and compliance topics.
+
+Aim for five to eight top-level categories. Too few and articles become hard to find inside a massive list; too many and the navigation feels overwhelming. A shallow, wide structure (more top-level categories with fewer articles each) is almost always easier to navigate than a deep, narrow one.
+
+## Creating and Nesting Categories
+
+<Steps>
+  <Step title="Open Category Manager">
+    In your Knowledge Base dashboard, click **Content** in the left sidebar, then select **Categories**. The Category Manager displays your existing category tree.
+  </Step>
+  <Step title="Create a top-level category">
+    Click **New Category**. Enter a short, customer-facing name (for example, "Getting Started") and an optional description that appears in your portal's category listing. Click **Save**.
+  </Step>
+  <Step title="Add a subcategory">
+    Hover over the parent category you just created and click the **+ Add Subcategory** icon that appears to its right. Give the subcategory a name that narrows the topic (for example, "Inviting Your Team" under "Getting Started"). Click **Save**.
+  </Step>
+  <Step title="Assign articles to the category">
+    Open any article in the editor and use the **Category** dropdown in the Article Settings panel to assign it to your new category or subcategory. You can also bulk-assign articles from the Articles list view by selecting multiple articles and choosing **Set Category** from the bulk actions menu.
+  </Step>
+  <Step title="Reorder categories in the navigation">
+    Back in the Category Manager, drag and drop categories into your preferred order. The order you set here is exactly what customers see in the portal's left-hand navigation.
+  </Step>
+</Steps>
+
+## Using Tags for Cross-Cutting Topics
+
+Tags let you connect articles that share a theme but live in different categories. Unlike categories — which place an article in exactly one location — a single article can carry as many tags as are relevant.
+
+Good use cases for tags include:
+
+- **Product area** — tag articles with the name of a feature so customers can filter by it on the search results page (for example, `reporting`, `api`, `mobile`).
+- **Audience** — distinguish content intended for admins versus end users with tags like `admin-only` or `end-user`.
+- **Status** — use a `beta` or `legacy` tag to surface context without renaming the article.
+- **Integration** — tag articles with the name of a third-party tool (for example, `slack`, `salesforce`) so customers following an integration-specific journey can find all relevant articles at once.
+
+To add a tag to an article, open the article in the editor and type into the **Tags** field in the Article Settings panel. Press **Enter** after each tag. Tags are created on the fly — no pre-configuration required.
+
+## Sorting and Ordering Articles Within a Category
+
+By default, articles within a category are sorted by the date they were last updated. You can override this with a custom order:
+
+1. Open **Content → Categories** and click on the category you want to manage.
+2. Switch the sort setting from **Automatic** to **Manual**.
+3. Drag articles into your preferred reading order. Put foundational or high-traffic articles at the top so customers encounter them first.
+4. Click **Save Order**.
+
+Use manual ordering for structured sequences like getting-started guides, where the reading order matters. Leave high-volume categories like Troubleshooting on automatic sort so recently updated articles (which are most likely to address current issues) always surface at the top.
+
+<Tip>
+  Connect your Knowledge Base analytics to your search data at least once a quarter. Open **Analytics → Search Terms** and look for searches that return zero results or have high drop-off rates. These are gaps in your content or navigation. When you see customers searching for a phrase that does not match any of your category names, consider renaming or adding a category to match the language they actually use.
+</Tip>

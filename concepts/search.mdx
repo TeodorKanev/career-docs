@@ -1,0 +1,92 @@
+---
+title: "How Search Works in Your Knowledge Base"
+sidebarTitle: "Search"
+description: "Knowledge Base full-text search indexes all your articles automatically. Learn what gets indexed, how ranking works, and how to improve search results."
+---
+
+Search is the fastest path between a customer with a question and an article with the answer. Your knowledge base indexes every published article automatically — no configuration required — and surfaces results in real time as customers type. Understanding what gets indexed and how results are ranked helps you write and tag your content in ways that put the right article at the top of every search.
+
+## What Gets Indexed
+
+The search engine reads and indexes four distinct content areas from each published article. Each area contributes to how the article appears in results.
+
+<CardGroup cols={2}>
+  <Card title="Title" icon="heading">
+    The article title receives the highest weight in the search index. An exact or near-exact match between a customer's query and an article title almost always surfaces that article at the top of results.
+  </Card>
+  <Card title="Body" icon="align-left">
+    The full body content of the article is indexed word by word. Headings within the body carry slightly more weight than regular paragraphs, so using descriptive H2 and H3 headings improves findability.
+  </Card>
+  <Card title="Tags" icon="tags">
+    Tags are indexed alongside the main content but are invisible to customers. They let you associate additional terms with an article — synonyms, abbreviations, common misspellings — without cluttering the readable content.
+  </Card>
+  <Card title="SEO Metadata" icon="magnifying-glass">
+    The SEO title and meta description fields are indexed and can help match queries that use slightly different phrasing from the article title. They also control how the article appears in external search engines like Google.
+  </Card>
+</CardGroup>
+
+<Info>
+  Only **published** articles are included in the search index. Drafts, articles in review, and archived articles are never returned in customer-facing search results.
+</Info>
+
+## How Search Ranking Works
+
+When a customer submits a query, the search engine evaluates every indexed article against several relevance signals and returns a ranked list of results. Here's how those signals work:
+
+<Steps>
+  <Step title="Exact Match">
+    Articles where the query appears verbatim in the title or body score highest. If a customer searches "reset password," an article titled "Reset your password" outranks an article that only mentions the phrase once in the body.
+  </Step>
+  <Step title="Title Weight">
+    The title field carries roughly three times the weight of body text. This means a query that matches the title of a less-visited article can still outrank a more-visited article where the match only appears in the body.
+  </Step>
+  <Step title="Recency">
+    Among articles with similar relevance scores, recently updated articles receive a modest ranking boost. This rewards teams that keep their content fresh and ensures customers see your most current guidance.
+  </Step>
+  <Step title="Engagement Signals">
+    Articles that customers click on and read to completion (rather than bouncing back to results) accumulate positive engagement signals over time. These signals gradually influence ranking, surfacing proven-helpful articles for similar queries in the future.
+  </Step>
+</Steps>
+
+## Improving Discoverability
+
+Good search results start with good content practices. Use these techniques to make your articles easier to find.
+
+<Accordion title="Use synonyms in tags">
+  If your article is titled "Cancel your subscription," add tags like "unsubscribe," "end plan," "stop billing," and "delete account" to catch customers who use different words for the same action. Tags are indexed by search but never shown to customers, so you can be thorough without affecting readability.
+</Accordion>
+
+<Accordion title="Mirror your customers' language in titles">
+  Write article titles the way a frustrated customer would type into a search box — not the way your product team would describe the feature internally. Review your search analytics regularly and update titles to match the phrasing customers actually use.
+</Accordion>
+
+<Accordion title="Write descriptive SEO metadata">
+  The meta description field gives the search engine additional context about your article's content. Write a concise one-to-two sentence summary that includes the key terms the article covers. This also improves how the article appears in Google results, driving organic traffic to your help portal.
+</Accordion>
+
+<Accordion title="Use specific, descriptive headings inside articles">
+  Headings within the article body are weighted more heavily than regular paragraph text. Replace vague headings like "Overview" or "More information" with specific ones like "How to export your data as a CSV" or "What happens when a payment fails."
+</Accordion>
+
+## Search Analytics
+
+Your knowledge base tracks every search query customers submit and gives you visibility into what's working and what isn't.
+
+<CardGroup cols={2}>
+  <Card title="Top Queries" icon="chart-bar">
+    See the most frequent search terms customers use. Cross-reference these against your existing articles — if a top query doesn't have a strong matching article, that's your next content priority.
+  </Card>
+  <Card title="Zero-Result Queries" icon="circle-xmark">
+    Queries that returned no results are the clearest signal of a content gap in your knowledge base. Review this report weekly and create articles for any recurring zero-result queries.
+  </Card>
+  <Card title="Click-Through Rate" icon="arrow-pointer">
+    The percentage of searches where a customer clicked at least one result. A low click-through rate on a popular query means results are appearing but not satisfying — review those articles for relevance and title clarity.
+  </Card>
+  <Card title="Search Exits" icon="arrow-right-from-bracket">
+    Tracks when customers search, find no satisfying result, and leave the portal entirely. High search exits often correlate with zero-result queries or with articles that are technically indexed but too thin to be helpful.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Use the **Tags** field to catch common misspellings of your product's features and terminology. For example, if your feature is called "Webhooks" but customers frequently search "web hooks" (two words) or "webhock," add those variants as tags on every related article. You'll quietly fix a discoverability problem without changing a single word of your article titles.
+</Tip>

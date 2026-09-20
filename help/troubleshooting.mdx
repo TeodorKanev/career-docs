@@ -1,0 +1,120 @@
+---
+title: "Troubleshoot Common Knowledge Base Issues"
+sidebarTitle: "Troubleshooting"
+description: "Fix the most common problems with article publishing, search indexing, custom domains, and widget embedding in your Knowledge Base."
+---
+
+Most issues with Knowledge Base have a quick fix. This page walks you through the most common problems our users encounter — covering article publishing, search indexing, custom domains, the embed widget, team invitations, and image display — along with clear steps to resolve each one. Work through the relevant section below, and if the problem persists, the support team is ready to help.
+
+## Common issues
+
+<AccordionGroup>
+  <Accordion title="Article not appearing after publishing">
+    If you've clicked **Publish** but the article isn't showing up on your public help center or in widget search results, check the following:
+
+    **1. Confirm the visibility setting.**
+    Open the article editor and look at the **Visibility** field in the right-hand sidebar. If it's set to **Internal**, the article is intentionally hidden from public visitors. Switch it to **Public** and republish.
+
+    **2. Wait for the cache to clear.**
+    Knowledge Base uses edge caching to serve your help center quickly. After publishing, it can take up to **2 minutes** for the new article to appear on your live site. Hard-refresh your browser (`Ctrl+Shift+R` or `Cmd+Shift+R`) to bypass your local cache.
+
+    **3. Check category visibility.**
+    If the article belongs to a category that is hidden, it will not appear publicly even if the article itself is set to Public. Go to **Content > Categories**, find the category, and make sure its visibility is set to **Public**.
+
+    **4. Verify your plan limit.**
+    If you've reached your plan's published article limit, new articles save as drafts automatically. Check your usage in **Settings > Usage** and upgrade your plan if needed.
+  </Accordion>
+
+  <Accordion title="Search not returning expected results">
+    If searches in your help center or widget aren't surfacing the right articles, try these steps:
+
+    **1. Allow time for indexing.**
+    Newly published or recently edited articles can take up to **5 minutes** to appear in search results. Wait a few minutes and search again.
+
+    **2. Check your search terms.**
+    The search engine matches against article titles, body text, and tags. Try searching for a specific word that appears verbatim in your article title rather than a paraphrased question.
+
+    **3. Add and improve tags.**
+    Tags significantly improve search ranking. Open the article, add relevant keywords to the **Tags** field in the sidebar, and republish. Common synonyms that customers might use are especially valuable.
+
+    **4. Confirm the article is published and public.**
+    Only published articles with **Public** visibility are included in search. Internal articles are excluded by design.
+
+    **5. Re-trigger indexing.**
+    Open the article, make a minor edit (such as adding a space), and republish. This forces the search index to re-process the article immediately.
+  </Accordion>
+
+  <Accordion title="Custom domain not working">
+    If your help center isn't resolving on your custom domain, work through these checks:
+
+    **1. Verify your CNAME record.**
+    Log in to your DNS provider and confirm the CNAME record points to `hosting.knowledgebase.io`. The record name should match the subdomain you entered in **Settings > Custom Domain** (for example, `help`).
+
+    **2. Wait for DNS propagation.**
+    DNS changes can take anywhere from a few minutes to **48 hours** to propagate globally. Use a tool like [dnschecker.org](https://dnschecker.org) to check whether the CNAME has propagated in your region.
+
+    **3. Check your SSL certificate status.**
+    Go to **Settings > Custom Domain** and look at the SSL status indicator. If it shows **Pending**, SSL provisioning is still in progress — this typically completes within 15 minutes of DNS propagation. If it shows **Error**, remove the domain and re-add it to trigger a fresh certificate request.
+
+    **4. Clear your browser cache.**
+    Old DNS results can be cached by your browser or operating system. Try opening the domain in a private/incognito window or a different browser.
+  </Accordion>
+
+  <Accordion title="Widget not loading on my site">
+    If the search widget button doesn't appear on your page after adding the script tag, check the following:
+
+    **1. Verify the script tag placement.**
+    The widget script tag should be placed just before the closing `</body>` tag of your page. If it's inside a `<head>` or loaded via a tag manager that fires before the DOM is ready, the widget may fail to initialize.
+
+    **2. Confirm your Widget ID is correct.**
+    Open your Knowledge Base dashboard, go to **Settings > Integrations > Widget**, and compare the Widget ID shown there against the `data-widget-id` value in your script tag. Even a single incorrect character will prevent the widget from loading.
+
+    **3. Check the browser console for errors.**
+    Open your browser's developer tools (F12), go to the **Console** tab, and reload the page. Look for any errors referencing `widget.knowledgebase.io`. A `net::ERR_BLOCKED_BY_CLIENT` message typically indicates an ad blocker or content security policy is preventing the script from loading.
+
+    **4. Review your Content Security Policy (CSP).**
+    If your site sets a `Content-Security-Policy` header, you must add `https://widget.knowledgebase.io` to the `script-src` and `connect-src` directives. Contact your engineering team to make this change.
+
+    **5. Disable browser extensions temporarily.**
+    Ad blockers, privacy extensions, and script blockers commonly block third-party widgets. Disable extensions in your browser and reload the page to confirm whether an extension is the cause.
+  </Accordion>
+
+  <Accordion title="Team member not receiving invitation email">
+    If a team member you invited hasn't received the invitation, try the following:
+
+    **1. Ask them to check their spam or junk folder.**
+    Invitation emails occasionally get caught by spam filters, especially when the recipient's email domain has strict filtering rules. Ask your team member to search for an email from `noreply@knowledgebase.io`.
+
+    **2. Confirm the email address.**
+    Go to **Settings > Team** and verify that the email address listed for the invite matches what your team member expects. If there's a typo, remove the pending invite and resend it to the correct address.
+
+    **3. Resend the invitation.**
+    In **Settings > Team**, find the pending invitation and click **Resend Invite**. A fresh email will be sent immediately.
+
+    **4. Check with your IT or email administrator.**
+    Some organizations block external emails by default. Ask your team member's IT administrator to allowlist `knowledgebase.io` as a trusted sender domain.
+
+    **5. Verify the invitation hasn't expired.**
+    Invitations expire after **7 days**. If the invite has expired, delete it and send a new one.
+  </Accordion>
+
+  <Accordion title="Images not displaying in articles">
+    If images you've added to articles aren't rendering correctly, check these common causes:
+
+    **1. Check the file format.**
+    Knowledge Base supports PNG, JPG, GIF, WebP, and SVG images. Other formats — including TIFF and HEIC — are not rendered in the article editor or on the published page. Convert the image to a supported format and re-upload it.
+
+    **2. Check the file size.**
+    Individual image uploads are limited to **10 MB**. If your image exceeds this limit, the upload silently fails. Compress the image using a tool like [Squoosh](https://squoosh.app) before uploading.
+
+    **3. Re-upload the image.**
+    If an image was uploaded while your internet connection was unstable, the file may be partially corrupted in storage. Delete the broken image from the article, re-upload it, and republish.
+
+    **4. Check for broken external image links.**
+    If you inserted an image via URL rather than a direct upload, the image will break if the source URL changes or the hosting server goes down. Replace externally hosted images with direct uploads for reliability.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  If you've worked through the steps above and your issue still isn't resolved, the Knowledge Base support team is here to help. Open a support ticket by clicking the **Help** icon in the bottom-right corner of your dashboard, or email **support@knowledgebase.io** with a description of the problem, your workspace URL, and any error messages you've seen. Include screenshots where possible — they speed up diagnosis significantly.
+</Note>
